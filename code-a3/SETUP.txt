@@ -6,7 +6,8 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 sudo systemctl start openvswitch-switch
 sudo python3 experiments/run.py "$PWD/.venv/bin/ryu-manager"
-Results overwrite results/*.txt and results/*-controller.log.
+Results overwrite results/*.txt and results/*.log.
+Check saved results: python3 experiments/verify.py
 
 Individual runs (use separate terminals; stop Mininet and controller between runs):
 .venv/bin/ryu-manager --ofp-tcp-listen-port 6633 p1/reactive.py
@@ -27,4 +28,7 @@ OpenFlow forwarding is implemented in p2/routing.py, shared by Parts 2 and 3.
 The bundled Ryu wheel is third-party software (Apache 2.0), not student work.
 Its existing compatibility modification uses getattr for eventlet's removed
 ALREADY_HANDLED symbol. Dependencies are downloaded by pip; no external local
-source directory is required. Report generation additionally needs reportlab.
+source directory is required. Report generation additionally needs ReportLab and installed Arial fonts:
+.venv/bin/pip install -r requirements-report.txt
+.venv/bin/python experiments/report.py
+The PDF embeds Arial, so readers do not need the font installed.

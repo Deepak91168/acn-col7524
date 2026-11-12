@@ -1,44 +1,48 @@
 INITIAL FLOW TABLES
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
- cookie=0x0, duration=5.187s, table=0, n_packets=0, n_bytes=0, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
+SWITCH s1
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
+ cookie=0x0, duration=5.185s, table=0, n_packets=0, n_bytes=0, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
+SWITCH s2
  cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth3"
  cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth3"
  cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
- cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
- cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
- cookie=0x0, duration=5.227s, table=0, n_packets=0, n_bytes=0, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
+ cookie=0x0, duration=5.228s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
+ cookie=0x0, duration=5.228s, table=0, n_packets=0, n_bytes=0, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
+ cookie=0x0, duration=5.228s, table=0, n_packets=0, n_bytes=0, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
 PINGALL loss percent: 0.0
 MEASURED PING
 PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
-64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=10.2 ms
 64 bytes from 10.0.0.5: icmp_seq=2 ttl=64 time=10.2 ms
-64 bytes from 10.0.0.5: icmp_seq=3 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=3 ttl=64 time=10.1 ms
 64 bytes from 10.0.0.5: icmp_seq=4 ttl=64 time=10.1 ms
-64 bytes from 10.0.0.5: icmp_seq=5 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=5 ttl=64 time=10.1 ms
 64 bytes from 10.0.0.5: icmp_seq=6 ttl=64 time=10.1 ms
 64 bytes from 10.0.0.5: icmp_seq=7 ttl=64 time=10.1 ms
-64 bytes from 10.0.0.5: icmp_seq=8 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=8 ttl=64 time=10.2 ms
 64 bytes from 10.0.0.5: icmp_seq=9 ttl=64 time=10.1 ms
-64 bytes from 10.0.0.5: icmp_seq=10 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=10 ttl=64 time=10.1 ms
 
 --- 10.0.0.5 ping statistics ---
 10 packets transmitted, 10 received, 0% packet loss, time 1804ms
-rtt min/avg/max/mdev = 10.097/10.138/10.176/0.026 ms
+rtt min/avg/max/mdev = 10.095/10.139/10.177/0.021 ms
 FINAL FLOW TABLES
- cookie=0x0, duration=7.390s, table=0, n_packets=20, n_bytes=1736, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
- cookie=0x0, duration=7.390s, table=0, n_packets=11, n_bytes=910, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
- cookie=0x0, duration=7.390s, table=0, n_packets=10, n_bytes=868, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
- cookie=0x0, duration=7.390s, table=0, n_packets=6, n_bytes=588, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
- cookie=0x0, duration=7.390s, table=0, n_packets=14, n_bytes=1372, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
- cookie=0x0, duration=7.390s, table=0, n_packets=10, n_bytes=420, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
- cookie=0x0, duration=7.426s, table=0, n_packets=14, n_bytes=1260, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth3"
- cookie=0x0, duration=7.426s, table=0, n_packets=6, n_bytes=476, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth3"
- cookie=0x0, duration=7.426s, table=0, n_packets=6, n_bytes=476, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
- cookie=0x0, duration=7.426s, table=0, n_packets=9, n_bytes=826, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
- cookie=0x0, duration=7.426s, table=0, n_packets=16, n_bytes=1568, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
- cookie=0x0, duration=7.426s, table=0, n_packets=10, n_bytes=420, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
+SWITCH s1
+ cookie=0x0, duration=7.372s, table=0, n_packets=20, n_bytes=1736, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=7.372s, table=0, n_packets=11, n_bytes=910, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=7.372s, table=0, n_packets=10, n_bytes=868, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=7.372s, table=0, n_packets=6, n_bytes=588, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
+ cookie=0x0, duration=7.372s, table=0, n_packets=14, n_bytes=1372, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
+ cookie=0x0, duration=7.372s, table=0, n_packets=10, n_bytes=420, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
+SWITCH s2
+ cookie=0x0, duration=7.397s, table=0, n_packets=14, n_bytes=1260, priority=10,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth3"
+ cookie=0x0, duration=7.397s, table=0, n_packets=6, n_bytes=476, priority=10,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth3"
+ cookie=0x0, duration=7.397s, table=0, n_packets=6, n_bytes=476, priority=10,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=7.397s, table=0, n_packets=9, n_bytes=826, priority=10,dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
+ cookie=0x0, duration=7.397s, table=0, n_packets=16, n_bytes=1568, priority=10,dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
+ cookie=0x0, duration=7.397s, table=0, n_packets=10, n_bytes=420, priority=5,dl_dst=ff:ff:ff:ff:ff:ff actions=FLOOD
 Logged forwarding Packet-In events: 0
