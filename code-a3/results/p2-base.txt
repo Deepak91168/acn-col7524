@@ -1,0 +1,61 @@
+INITIAL FLOW TABLES
+ cookie=0x0, duration=2.210s, table=0, n_packets=4, n_bytes=356, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=2.246s, table=0, n_packets=5, n_bytes=446, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=2.275s, table=0, n_packets=4, n_bytes=356, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=2.311s, table=0, n_packets=5, n_bytes=446, priority=0 actions=CONTROLLER:65535
+PINGALL loss percent: 0.0
+MEASURED PING
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=67.2 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=3 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=4 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=5 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=6 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=7 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=8 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=9 ttl=64 time=60.2 ms
+64 bytes from 10.0.0.3: icmp_seq=10 ttl=64 time=60.2 ms
+
+--- 10.0.0.3 ping statistics ---
+10 packets transmitted, 10 received, 0% packet loss, time 1802ms
+rtt min/avg/max/mdev = 60.177/60.899/67.229/2.109 ms
+FINAL FLOW TABLES
+ cookie=0x0, duration=3.514s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=3.490s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=3.001s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=2.987s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=2.983s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:04 actions=output:"s1-eth3"
+ cookie=0x0, duration=2.967s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth2"
+ cookie=0x0, duration=1.864s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth2"
+ cookie=0x0, duration=1.832s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=10.962s, table=0, n_packets=15, n_bytes=1062, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=3.539s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth2"
+ cookie=0x0, duration=3.515s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth1"
+ cookie=0x0, duration=3.026s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth2"
+ cookie=0x0, duration=3.017s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth1"
+ cookie=0x0, duration=3.014s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=3.004s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth1"
+ cookie=0x0, duration=2.992s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=2.989s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:04 actions=output:"s2-eth3"
+ cookie=0x0, duration=1.889s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=1.857s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s2-eth2"
+ cookie=0x0, duration=10.986s, table=0, n_packets=15, n_bytes=1062, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=3.050s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s3-eth2"
+ cookie=0x0, duration=3.041s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:02 actions=output:"s3-eth2"
+ cookie=0x0, duration=3.038s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:03 actions=output:"s3-eth1"
+ cookie=0x0, duration=3.028s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:03 actions=output:"s3-eth1"
+ cookie=0x0, duration=3.028s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:02 actions=output:"s3-eth2"
+ cookie=0x0, duration=3.026s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:04 actions=output:"s3-eth3"
+ cookie=0x0, duration=3.016s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s3-eth1"
+ cookie=0x0, duration=3.013s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:04 actions=output:"s3-eth3"
+ cookie=0x0, duration=1.913s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s3-eth1"
+ cookie=0x0, duration=1.880s, table=0, n_packets=8, n_bytes=784, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s3-eth2"
+ cookie=0x0, duration=11.010s, table=0, n_packets=16, n_bytes=1104, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=3.064s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:01 actions=output:"s4-eth3"
+ cookie=0x0, duration=3.060s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:04 actions=output:"s4-eth1"
+ cookie=0x0, duration=3.056s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:03 actions=output:"s4-eth2"
+ cookie=0x0, duration=3.056s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:04,dl_dst=00:00:00:00:00:02 actions=output:"s4-eth2"
+ cookie=0x0, duration=3.054s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:04 actions=output:"s4-eth1"
+ cookie=0x0, duration=3.041s, table=0, n_packets=1, n_bytes=42, idle_timeout=5, priority=10,arp,dl_src=00:00:00:00:00:02,dl_dst=00:00:00:00:00:04 actions=output:"s4-eth1"
+ cookie=0x0, duration=11.038s, table=0, n_packets=12, n_bytes=936, priority=0 actions=CONTROLLER:65535

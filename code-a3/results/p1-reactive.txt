@@ -1,0 +1,49 @@
+INITIAL FLOW TABLES
+ cookie=0x0, duration=6.761s, table=0, n_packets=29, n_bytes=2494, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=6.795s, table=0, n_packets=29, n_bytes=2494, priority=0 actions=CONTROLLER:65535
+PINGALL loss percent: 0.0
+MEASURED PING
+PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=2 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=3 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=4 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=5 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=6 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=7 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=8 ttl=64 time=10.1 ms
+64 bytes from 10.0.0.5: icmp_seq=9 ttl=64 time=10.2 ms
+64 bytes from 10.0.0.5: icmp_seq=10 ttl=64 time=10.1 ms
+
+--- 10.0.0.5 ping statistics ---
+10 packets transmitted, 10 received, 0% packet loss, time 1804ms
+rtt min/avg/max/mdev = 10.094/10.140/10.196/0.032 ms
+FINAL FLOW TABLES
+ cookie=0x0, duration=2.155s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s1-eth2",dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=2.153s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth1",dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=2.146s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s1-eth3",dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=2.144s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth1",dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=2.123s, table=0, n_packets=13, n_bytes=1218, priority=1,in_port="s1-eth4",dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=2.120s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth1",dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
+ cookie=0x0, duration=2.086s, table=0, n_packets=9, n_bytes=882, priority=1,in_port="s1-eth1",dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
+ cookie=0x0, duration=2.063s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s1-eth3",dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=2.062s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth2",dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=2.042s, table=0, n_packets=5, n_bytes=434, priority=1,in_port="s1-eth4",dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=2.040s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth2",dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
+ cookie=0x0, duration=2.007s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth2",dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
+ cookie=0x0, duration=1.971s, table=0, n_packets=5, n_bytes=434, priority=1,in_port="s1-eth4",dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=1.970s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth3",dl_dst=00:00:00:00:00:04 actions=output:"s1-eth4"
+ cookie=0x0, duration=1.939s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s1-eth3",dl_dst=00:00:00:00:00:05 actions=output:"s1-eth4"
+ cookie=0x0, duration=8.984s, table=0, n_packets=54, n_bytes=4048, priority=0 actions=CONTROLLER:65535
+ cookie=0x0, duration=2.174s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth1",dl_dst=00:00:00:00:00:01 actions=output:"s2-eth3"
+ cookie=0x0, duration=2.157s, table=0, n_packets=5, n_bytes=490, priority=1,in_port="s2-eth3",dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
+ cookie=0x0, duration=2.137s, table=0, n_packets=10, n_bytes=980, priority=1,in_port="s2-eth2",dl_dst=00:00:00:00:00:01 actions=output:"s2-eth3"
+ cookie=0x0, duration=2.123s, table=0, n_packets=13, n_bytes=1274, priority=1,in_port="s2-eth3",dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
+ cookie=0x0, duration=2.092s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth1",dl_dst=00:00:00:00:00:02 actions=output:"s2-eth3"
+ cookie=0x0, duration=2.058s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth2",dl_dst=00:00:00:00:00:02 actions=output:"s2-eth3"
+ cookie=0x0, duration=2.021s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth1",dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=1.989s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth2",dl_dst=00:00:00:00:00:03 actions=output:"s2-eth3"
+ cookie=0x0, duration=1.916s, table=0, n_packets=2, n_bytes=196, priority=1,in_port="s2-eth2",dl_dst=00:00:00:00:00:04 actions=output:"s2-eth1"
+ cookie=0x0, duration=1.915s, table=0, n_packets=1, n_bytes=98, priority=1,in_port="s2-eth1",dl_dst=00:00:00:00:00:05 actions=output:"s2-eth2"
+ cookie=0x0, duration=9.023s, table=0, n_packets=49, n_bytes=3502, priority=0 actions=CONTROLLER:65535
+Logged forwarding Packet-In events: 103
