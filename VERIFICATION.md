@@ -1,7 +1,7 @@
 # Assignment 3 verification
 
 Verified against all pages of `a3/Assignment3.pdf`, including the submission rules.
-The final submission opens directly to `p1/`, `p2/`, `p3/` and `Report.pdf`.
+The final submission opens directly to `p1/`, `p2/`, `p3/`, `Report.pdf` and `README.md`.
 
 ## Structure
 
@@ -13,7 +13,7 @@ The final submission opens directly to `p1/`, `p2/`, `p3/` and `Report.pdf`.
 
 The Python requirements and bundled third-party Ryu wheel are under `p1/` and
 install one environment for all parts. Full instructions are in the report and
-`p1/SETUP.txt`. Parts 2 and 3 have no imports from another part.
+`README.md`. Parts 2 and 3 have no imports from another part.
 
 The report generator and saved-evidence checker are repository maintenance tools
 under `tools/`, outside the submission ZIP. Examiner materials remain in `a3/`.
@@ -52,7 +52,7 @@ under `tools/`, outside the submission ZIP. Examiner materials remain in `a3/`.
 | Part 3 decision and limitation | Penalty calculation, sampling delay, queue/counter interpretation and host-pair granularity explained. |
 | Required topology files | Examiner filenames and content retained, byte-for-byte. No topology changes. |
 | Self-contained source and setup | Controllers, topology files, runners, configuration and logs under the three part folders. No external local source tree needed. |
-| Report format | Black-and-white diagrams, embedded Arial, actual selected logs and measurements. Setup prose shortened; dependency details remain in SETUP.txt. |
+| Report format | Black-and-white diagrams, embedded Arial, actual selected logs and measurements. Setup prose shortened; dependency details remain in README.md. |
 | Required archive name | `2025CSY7616 2025MCS2096 A3.zip`. |
 | Two-member group | Deepak 2025CSY7616 and Pratik 2025MCS2096. |
 
