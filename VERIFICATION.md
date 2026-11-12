@@ -52,7 +52,7 @@ under `tools/`, outside the submission ZIP. Examiner materials remain in `a3/`.
 | Part 3 decision and limitation | Penalty calculation, sampling delay, queue/counter interpretation and host-pair granularity explained. |
 | Required topology files | Examiner filenames and content retained, byte-for-byte. No topology changes. |
 | Self-contained source and setup | Controllers, topology files, runners, configuration and logs under the three part folders. No external local source tree needed. |
-| Report format | Black-and-white diagrams, embedded Arial, actual selected logs and measurements. Setup prose shortened; dependency details remain in README.md. |
+| Report format | Black-and-white diagrams, embedded Arial, actual selected logs and measurements. Setup prose shortened; dependency details remain in README.md. The requested explanations are labelled directly under each part and tied to its measurements. |
 | Required archive name | `2025CSY7616 2025MCS2096 A3.zip`. |
 | Two-member group | Deepak 2025CSY7616 and Pratik 2025MCS2096. |
 
