@@ -309,12 +309,12 @@ p3_evidence()
 
 story.append(PageBreak()); h('4. Setup and run commands')
 p('Tested on Linux with Python 3.12.3, Open vSwitch 3.3.9, Ryu 4.34, Mininet and iperf 2.1.9. The supplied topologies are unchanged.')
-p('Extract the ZIP. Its top level contains p1/, p2/, p3/ and Report.pdf. Each part contains its controller, supplied topology, run.py and results/. Run the following commands from that top level:',small)
+p('Extract the ZIP. The root contains the three part folders, report, README and shared dependencies. Each part contains its controller, supplied topology, run.py and results/. Run the following commands from that top level:',small)
 logs('Setup and complete experiment run',[
 'sudo apt install mininet openvswitch-switch iperf python3-venv',
 'python3 -m venv .venv',
 '.venv/bin/pip install setuptools==67.6.1 wheel',
-'.venv/bin/pip install -r p1/requirements.txt',
+'.venv/bin/pip install -r requirements.txt',
 'sudo systemctl start openvswitch-switch',
 'sudo python3 p1/run.py "$PWD/.venv/bin/ryu-manager"',
 'sudo python3 p2/run.py "$PWD/.venv/bin/ryu-manager"',

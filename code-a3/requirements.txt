@@ -1,5 +1,5 @@
 # Ryu wheel is included because this installation has an eventlet compatibility fix.
-./p1/vendor/ryu-4.34-py3-none-any.whl
+./vendor/ryu-4.34-py3-none-any.whl
 eventlet==0.35.2
 dnspython==2.2.1
 networkx==3.7

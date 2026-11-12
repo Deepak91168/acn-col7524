@@ -11,8 +11,6 @@ p1/                  Reactive and proactive forwarding
   proactive.py
   p1_topo.py         Original two-switch topology
   run.py             Runs both Part 1 experiments
-  requirements.txt   Python dependencies for all three parts
-  vendor/            Compatible Ryu wheel
   results/           Controller logs, flow tables and ping results
 p2/                  Static shortest-delay routing
   routing.py
@@ -24,6 +22,8 @@ p3/                  Congestion-aware routing
   p3_topo.py         Original four-switch ring
   run.py             Runs static and congestion-aware comparisons
   results/           Also includes UDP client/server and receiver logs
+vendor/              Compatible Ryu wheel shared by all parts
+requirements.txt     Python dependencies shared by all parts
 Report.pdf
 README.md
 ```
@@ -42,7 +42,7 @@ sudo apt update
 sudo apt install mininet openvswitch-switch iperf python3-venv
 python3 -m venv .venv
 .venv/bin/pip install setuptools==67.6.1 wheel
-.venv/bin/pip install -r p1/requirements.txt
+.venv/bin/pip install -r requirements.txt
 sudo systemctl start openvswitch-switch
 ```
 

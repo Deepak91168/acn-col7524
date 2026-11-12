@@ -13,7 +13,7 @@ cd acn-col7524/code-a3
 ```
 
 Follow `README.md` there to install dependencies and run the experiments.
-The ZIP contains the same three part folders, report and run guide at its root.
+The ZIP contains the three part folders, report, run guide and shared dependencies at its root.
 Both provided topology filenames and contents are unchanged.
 
 - [Report](code-a3/Report.pdf)

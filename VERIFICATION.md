@@ -1,7 +1,7 @@
 # Assignment 3 verification
 
 Verified against all pages of `a3/Assignment3.pdf`, including the submission rules.
-The final submission opens directly to `p1/`, `p2/`, `p3/`, `Report.pdf` and `README.md`.
+The final submission opens directly to `p1/`, `p2/`, `p3/`, `Report.pdf`, `README.md` and shared dependencies.
 
 ## Structure
 
@@ -11,7 +11,7 @@ The final submission opens directly to `p1/`, `p2/`, `p3/`, `Report.pdf` and `RE
 - `Report.pdf`: design, assumptions, diagrams, selected controller logs, before/after rules,
   ping/receiver results and run commands.
 
-The Python requirements and bundled third-party Ryu wheel are under `p1/` and
+The Python requirements and bundled third-party Ryu wheel are at the submission root and
 install one environment for all parts. Full instructions are in the report and
 `README.md`. Parts 2 and 3 have no imports from another part.
 
@@ -22,7 +22,7 @@ under `tools/`, outside the submission ZIP. Examiner materials remain in `a3/`.
 
 1. Packaged and extracted the refactored sources into an isolated directory.
 2. Created a new Python virtual environment there and installed the documented
-   `setuptools`, wheel and `p1/requirements.txt` dependencies. `pip check` passed.
+   `setuptools`, wheel and `requirements.txt` dependencies. `pip check` passed.
 3. Ran all three part runners, covering six experiments, with system Python and
    Mininet and the new environment's Ryu controller. After preserving the original
    topology filenames, reran the complete set with the final imports and paths.
