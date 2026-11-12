@@ -1,7 +1,7 @@
 2 RLock(s) were not greened, to fix this error make sure you run eventlet.monkey_patch() before importing any other modules.
-loading app p1/proactive.py
+loading app proactive.py
 loading app ryu.controller.ofp_handler
-instantiating app p1/proactive.py of P1_ProactiveSwitch
+instantiating app proactive.py of P1_ProactiveSwitch
 instantiating app ryu.controller.ofp_handler of OFPHandler
 Switch 1 connected
 Installed: switch=1 dst=h1 out=1

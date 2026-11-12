@@ -1,12 +1,10 @@
-"""Delay routing; CONGESTION=1 enables Part 3. Fixed supplied ring/hosts."""
+"""Part 2: shortest-delay routing for the supplied fixed ring. DELAY12 changes one cost."""
 import os
-import time
 import networkx as nx
 from ryu.base import app_manager
 from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER, set_ev_cls
 from ryu.ofproto import ofproto_v1_3
-from ryu.lib import hub
 from ryu.lib.packet import packet, ethernet
 
 # (switch, switch, port at first, port at second, Mbps, delay ms)
@@ -17,17 +15,14 @@ class Routing(app_manager.RyuApp):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.dps, self.previous, self.util = {}, {}, {}
-        self.adaptive = os.getenv('CONGESTION', '0') == '1'
+        self.dps = {}
         self.graph = nx.Graph()
-        self.ports, self.capacity = {}, {}
+        self.ports = {}
         for a,b,pa,pb,bw,delay in LINKS:
             if (a,b)==(1,2):
                 delay = float(os.getenv('DELAY12', '20'))
             self.graph.add_edge(a,b,weight=delay)
             self.ports[a,b], self.ports[b,a] = pa,pb
-            self.capacity[a,pa] = self.capacity[b,pb] = bw*1e6
-        self.monitor = hub.spawn(self.poll)
 
     def flow(self, dp, match, actions, priority=10, idle=0):
         p, o = dp.ofproto_parser, dp.ofproto
@@ -41,29 +36,8 @@ class Routing(app_manager.RyuApp):
         p,o = dp.ofproto_parser, dp.ofproto
         self.flow(dp,p.OFPMatch(),[p.OFPActionOutput(o.OFPP_CONTROLLER,o.OFPCML_NO_BUFFER)],0)
 
-    def poll(self):
-        while True:
-            for dp in list(self.dps.values()):
-                dp.send_msg(dp.ofproto_parser.OFPPortStatsRequest(dp,0,dp.ofproto.OFPP_ANY))
-            hub.sleep(1)
-
-    @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
-    def stats(self,ev):
-        now=time.monotonic()
-        for s in ev.msg.body:
-            key=(ev.msg.datapath.id,s.port_no)
-            if key not in self.capacity: continue
-            if key in self.previous:
-                old,stamp=self.previous[key]
-                self.util[key]=max(0,(s.tx_bytes-old)*8/(now-stamp)/self.capacity[key])
-            self.previous[key]=(s.tx_bytes,now)
-
-    def path(self,a,b):
-        g=self.graph.copy()
-        for x,y in g.edges:
-            u=max(self.util.get((x,self.ports[x,y]),0),self.util.get((y,self.ports[y,x]),0))
-            if self.adaptive and u>0.70: g[x][y]['weight']+=100
-        return nx.shortest_path(g,a,b,weight='weight')
+    def path(self, a, b):
+        return nx.shortest_path(self.graph, a, b, weight='weight')
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def received(self,ev):
@@ -83,7 +57,7 @@ class Routing(app_manager.RyuApp):
         a,b=hosts[eth.src],hosts[eth.dst]
         path=self.path(a,b)
         if any(s not in self.dps for s in path): return
-        self.logger.info('PATH %s -> %s: %s adaptive=%s utilization=%s',a,b,path,self.adaptive,{str(k):round(v,2) for k,v in self.util.items()})
+        self.logger.info('PATH %s -> %s: %s adaptive=False', a, b, path)
         # Install only this direction. Reverse traffic independently chooses a path.
         # Match host pair + EtherType; expire after 5 idle seconds for later flows.
         for i,sid in reversed(list(enumerate(path))):

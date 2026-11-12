@@ -1,0 +1,67 @@
+INITIAL FLOW TABLES
+SWITCH s1
+ cookie=0x0, duration=7.057s, table=0, n_packets=5, n_bytes=430, priority=0 actions=CONTROLLER:65535
+SWITCH s2
+ cookie=0x0, duration=7.084s, table=0, n_packets=6, n_bytes=516, priority=0 actions=CONTROLLER:65535
+SWITCH s3
+ cookie=0x0, duration=7.127s, table=0, n_packets=5, n_bytes=430, priority=0 actions=CONTROLLER:65535
+SWITCH s4
+ cookie=0x0, duration=7.168s, table=0, n_packets=6, n_bytes=516, priority=0 actions=CONTROLLER:65535
+PINGALL loss percent: 0.0
+UNDER LOAD PING h1 -> h3
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=78.6 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=64 time=70.1 ms
+64 bytes from 10.0.0.3: icmp_seq=3 ttl=64 time=70.1 ms
+64 bytes from 10.0.0.3: icmp_seq=4 ttl=64 time=70.2 ms
+64 bytes from 10.0.0.3: icmp_seq=5 ttl=64 time=70.1 ms
+
+--- 10.0.0.3 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 801ms
+rtt min/avg/max/mdev = 70.090/71.827/78.604/3.388 ms
+FOREGROUND UDP 0.6 Mbps h1 -> h3
+------------------------------------------------------------
+Client connecting to 10.0.0.3, UDP port 5002
+Sending 1470 byte datagrams, IPG target: 19140.62 us (kalman adjust)
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  1] local 10.0.0.1 port 50005 connected with 10.0.0.3 port 5002
+[ ID] Interval       Transfer     Bandwidth
+[  1] 0.0000-8.0200 sec   604 KBytes   617 Kbits/sec
+[  1] Sent 422 datagrams
+[  1] Server Report:
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  1] 0.0000-8.0200 sec   604 KBytes   617 Kbits/sec   0.016 ms 0/421 (0%)
+SERVER
+------------------------------------------------------------
+Server listening on UDP port 5002
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  1] local 10.0.0.3 port 5002 connected with 10.0.0.1 port 50005
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  1] 0.0000-1.0000 sec  77.5 KBytes   635 Kbits/sec   0.015 ms 0/54 (0%)
+[  1] 1.0000-2.0000 sec  74.6 KBytes   612 Kbits/sec   0.012 ms 0/52 (0%)
+[  1] 2.0000-3.0000 sec  74.6 KBytes   612 Kbits/sec   0.020 ms 0/52 (0%)
+[  1] 3.0000-4.0000 sec  74.6 KBytes   612 Kbits/sec   0.015 ms 0/52 (0%)
+[  1] 4.0000-5.0000 sec  76.1 KBytes   623 Kbits/sec   0.026 ms 0/53 (0%)
+[  1] 5.0000-6.0000 sec  74.6 KBytes   612 Kbits/sec   0.012 ms 0/52 (0%)
+[  1] 6.0000-7.0000 sec  74.6 KBytes   612 Kbits/sec   0.014 ms 0/52 (0%)
+[  1] 7.0000-8.0000 sec  74.6 KBytes   612 Kbits/sec   0.012 ms 0/52 (0%)
+[  1] 0.0000-8.0200 sec   604 KBytes   617 Kbits/sec   0.016 ms 0/421 (0%)
+FINAL FLOW TABLES
+SWITCH s1
+ cookie=0x0, duration=14.186s, table=0, n_packets=2272, n_bytes=3435264, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:"s1-eth2"
+ cookie=0x0, duration=9.186s, table=0, n_packets=428, n_bytes=641480, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s1-eth3"
+ cookie=0x0, duration=0.042s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s1-eth1"
+ cookie=0x0, duration=28.358s, table=0, n_packets=16, n_bytes=1144, priority=0 actions=CONTROLLER:65535
+SWITCH s2
+ cookie=0x0, duration=14.216s, table=0, n_packets=2269, n_bytes=3430728, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:02 actions=output:"s2-eth1"
+ cookie=0x0, duration=28.386s, table=0, n_packets=15, n_bytes=1090, priority=0 actions=CONTROLLER:65535
+SWITCH s3
+ cookie=0x0, duration=9.253s, table=0, n_packets=426, n_bytes=637042, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s3-eth1"
+ cookie=0x0, duration=0.109s, table=0, n_packets=1, n_bytes=170, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s3-eth3"
+ cookie=0x0, duration=28.423s, table=0, n_packets=17, n_bytes=1186, priority=0 actions=CONTROLLER:65535
+SWITCH s4
+ cookie=0x0, duration=9.279s, table=0, n_packets=428, n_bytes=640066, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:01,dl_dst=00:00:00:00:00:03 actions=output:"s4-eth2"
+ cookie=0x0, duration=0.134s, table=0, n_packets=0, n_bytes=0, idle_timeout=5, priority=10,ip,dl_src=00:00:00:00:00:03,dl_dst=00:00:00:00:00:01 actions=output:"s4-eth3"
+ cookie=0x0, duration=28.448s, table=0, n_packets=13, n_bytes=1006, priority=0 actions=CONTROLLER:65535

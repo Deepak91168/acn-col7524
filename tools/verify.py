@@ -1,14 +1,15 @@
-"""Check saved experiment evidence: python3 experiments/verify.py."""
+"""Check saved experiment evidence: python3 tools/verify.py."""
 from pathlib import Path
 import re
 
-ROOT = Path(__file__).resolve().parents[1]
-RESULTS = ROOT / 'results'
+ROOT = Path(__file__).resolve().parents[1] / 'code-a3'
+def result_path(name):
+    return ROOT / name[:2] / 'results' / name
 CASES = ['p1-reactive', 'p1-proactive', 'p2-base', 'p2-changed', 'p3-static', 'p3-adaptive']
 
 
 def text(name):
-    return (RESULTS / (name + '.txt')).read_text()
+    return result_path(name + '.txt').read_text()
 
 
 def mean_rtt(name):
@@ -32,7 +33,7 @@ def receiver_rates(name):
 def check():
     for name in CASES:
         data = text(name)
-        log = (RESULTS / (name + '-controller.log')).read_text()
+        log = result_path(name + '-controller.log').read_text()
         assert 'PINGALL loss percent: 0.0' in data, name
         assert re.search(r'(10|5) packets transmitted, \1 received, 0% packet loss', data), name
         assert 'Traceback' not in log and 'OFPError' not in log, name
@@ -53,7 +54,7 @@ def check():
         ('p3-static', '[1, 2, 3]', '[3, 2, 1]', 2),
         ('p3-adaptive', '[1, 4, 3]', '[3, 4, 1]', 3),
     ]:
-        log = (RESULTS / (name + '-controller.log')).read_text()
+        log = result_path(name + '-controller.log').read_text()
         decisions = [l for l in log.splitlines() if 'PATH 1 -> 3:' in l]
         assert ': ' + path + ' adaptive=' in decisions[-1], name
         assert 'PATH 3 -> 1: ' + reverse in log, name
@@ -73,7 +74,7 @@ def check():
     adaptive = sum(receiver_rates('p3-adaptive')) / 7
     assert adaptive > static, (static, adaptive)
     print(f'PASS congestion comparison: receiver {static:.3f} -> {adaptive:.3f} Mbps')
-    assert ROOT.joinpath('p1_topo.py').is_file() and ROOT.joinpath('p3_topo.py').is_file()
+    assert all(ROOT.joinpath(part, name).is_file() for part, name in [('p1','p1_topo.py'),('p2','p3_topo.py'),('p3','p3_topo.py')])
     print('All saved experiment checks passed.')
 
 

@@ -1,0 +1,42 @@
+Run these commands from the extracted ZIP root (beside p1/, p2/, p3/ and Report.pdf).
+
+sudo apt install mininet openvswitch-switch iperf python3-venv
+python3 -m venv .venv
+.venv/bin/pip install setuptools==67.6.1 wheel
+.venv/bin/pip install -r p1/requirements.txt
+sudo systemctl start openvswitch-switch
+
+Run the experiments one part at a time:
+sudo python3 p1/run.py "$PWD/.venv/bin/ryu-manager"
+sudo python3 p2/run.py "$PWD/.venv/bin/ryu-manager"
+sudo python3 p3/run.py "$PWD/.venv/bin/ryu-manager"
+Each runner writes its two experiment cases to that part's results/ folder.
+
+Interactive mode: start one controller and its topology in separate terminals.
+.venv/bin/ryu-manager --ofp-tcp-listen-port 6633 p1/reactive.py
+sudo python3 p1/p1_topo.py
+For proactive forwarding replace reactive.py with proactive.py.
+
+Part 2:
+.venv/bin/ryu-manager --ofp-tcp-listen-port 6633 p2/routing.py
+sudo python3 p2/p3_topo.py
+Prefix the controller command with DELAY12=40 for the changed-cost test.
+
+Part 3:
+.venv/bin/ryu-manager --ofp-tcp-listen-port 6633 p3/routing.py
+sudo python3 p3/p3_topo.py
+Congestion-aware routing is the default. Prefix the controller command with
+CONGESTION=0 for the static comparison.
+
+Inside Mininet: pingall; h1 ping -c 10 h3
+Inspect: sh ovs-ofctl -O OpenFlow13 dump-flows s1
+Cleanup after an interrupted run: sudo mn -c
+
+The topologies retain all supplied links and parameters; their original
+filenames are preserved within each part. Host MACs, switch IDs and port maps are fixed to
+those topologies. autoSetMacs=True is required. Controller port: 6633.
+Tested: Python 3.12.3, OVS 3.3.9, Ryu 4.34, iperf 2.1.9.
+
+The Ryu wheel in p1/vendor/ is third-party Apache-2.0 software, with the existing
+ALREADY_HANDLED compatibility adjustment for eventlet. pip installs its other
+dependencies; no external local Ryu source directory is used.
