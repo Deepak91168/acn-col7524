@@ -27,7 +27,7 @@ and its saved experiment evidence checked using `experiments/verify.py`.
 | Part 1 suitable comparison | PASS. 101 reactive forwarding Packet-In log entries versus zero for proactive in this run. The workload includes all-pairs warm-up and ten pings. |
 | Part 1 trade-off explanation | PASS. Report page 1 explains initial controller work, advance knowledge and unnecessary installed rules. Warmed-up RTT is not presented as first-packet delay. |
 | Part 2 topology with alternative routes | PASS. Unchanged four-switch supplied ring; s1-s2-s3 and s1-s4-s3 are alternatives. |
-| Part 2 graph and host attachments | PASS. Fixed graph, link port map and MAC/port-1 host mapping, documented on report page 2. Dynamic discovery is not claimed. |
+| Part 2 graph and host attachments | PASS. Fixed graph, link port map and MAC/port-1 host mapping, documented on report page 4. Dynamic discovery is not claimed. |
 | Part 2 metric and path computation | PASS. Additive delay costs; NetworkX shortest path; OpenFlow rules installed at all switches on the chosen route. |
 | Part 2 bidirectional communication | PASS. All-pairs ping and explicit h1-h3 pings; logs show the forward and reverse routes. |
 | Part 2 changed link cost | PASS. DELAY12=40 changes a controller cost, as allowed by the assignment. The physical topology stays unchanged. Route changes from s1-s2-s3 to s1-s4-s3. |
@@ -37,10 +37,10 @@ and its saved experiment evidence checked using `experiments/verify.py`.
 | Part 3 later flow uses updated state | PASS. After warm-up rules expire, the later h1-h3 pair changes from its initial s2 route to s4. The active h1-h2 rule stays on s1-s2. Rules expire after five idle seconds. |
 | Part 3 actual congestion scenario | PASS. h1-h2 UDP load uses -b 1.8M on the 2 Mbps link; h1-h3 UDP is offered at -b 600K. Both modes use the same workload. |
 | Part 3 comparison to static | PASS. Static path s1-s2-s3, adaptive path s1-s4-s3. Mean first-seven-second receiver rates: 0.480 versus 0.617 Mbps. |
-| Part 3 explanation and limitation | PASS. Report page 3 explains the penalty and documents sampling, counter/queue interpretation, no hysteresis, host-pair granularity and no active-flow rerouting. |
+| Part 3 explanation and limitation | PASS. Report page 5 explains the penalty and documents sampling, counter/queue interpretation, no hysteresis, host-pair granularity and no active-flow rerouting. |
 | Required source and topology files | PASS. All used topology/controller/configuration/experiment files are inside code-a3 in the ZIP. Topologies match examiner files byte-for-byte. Part 1 code matches the baseline Git commit. |
-| Report PDF | PASS. Five pages, three diagrams, selected actual logs, flow-table counters, performance tables, assumptions and run commands. Visually checked all pages. |
-| Report style requested in follow-up | PASS. Black and white. Actual text font specifications are Arial in black; Arial regular, bold and italic are embedded. All measurements come from logs. |
+| Report PDF | PASS. Seven pages, three diagrams, selected actual logs, flow-table counters, performance tables, assumptions and run commands. Visually checked all pages. |
+| Report style requested in follow-up | PASS. Black and white. Part 1 has dedicated reactive/proactive evidence pages with before/after rules, Ryu excerpts and successful ping summaries. Actual text font specifications are Arial in black; Arial regular, bold and italic are embedded. All measurements come from logs. |
 | Self-contained extracted submission | PASS in tested environment. Bundled third-party Ryu wheel; other Python dependencies installed by pip. No references to an external local source tree are required. Mininet/OVS/iperf are OS prerequisites, as specified by the assignment. |
 | Correct archive name and integrity | PASS. `2025CSY7616 2025MCS2096 A3.zip`; ZIP integrity test and byte comparison after extraction pass. Virtual environments, caches and Git history are excluded. |
 | Names and group size | PASS. Deepak 2025CSY7616 and Pratik 2025MCS2096, two members. |
@@ -66,7 +66,8 @@ These are single-run demonstration results, not statistical benchmarks. Host
 locations are fixed; routing rules distinguish a MAC pair and EtherType, not
 individual transport sessions. These assumptions are explicit in the report.
 
-Git is initialized locally on branch `main`. No GitHub remote is configured and
-nothing has been pushed. The course upload and final Submit button remain user
+Git is initialized on branch `main`, with origin at
+https://github.com/Deepak91168/acn-col7524. The verified assignment and subsequent
+report updates are pushed there as requested. The course upload and final Submit button remain user
 actions; neither is part of this local verification. This review verifies the
 technical requirements, not external plagiarism-check outcomes or marks.

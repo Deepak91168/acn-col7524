@@ -139,6 +139,75 @@ def forwarding(name):
     return rows
 
 
+def p1_rules(name, stage, include_broadcast=False):
+    data = text(name)
+    if stage == 'before':
+        section = data.split('INITIAL FLOW TABLES\n', 1)[1].split('PINGALL', 1)[0]
+    else:
+        section = data.split('FINAL FLOW TABLES\n', 1)[1]
+    lines = []
+    for block in section.split('SWITCH ')[1:]:
+        switch = block.splitlines()[0]
+        for line in block.splitlines()[1:]:
+            if 'priority=' not in line:
+                continue
+            if stage == 'before' and name == 'p1-reactive':
+                selected = True
+            else:
+                # Show both directions of the cross-switch h1/h5 conversation.
+                selected = ('dl_dst=00:00:00:00:00:05' in line or
+                            'dl_dst=00:00:00:00:00:01' in line)
+                if name == 'p1-reactive':
+                    selected = selected and ('in_port="'+switch+'-eth'+('1' if switch=='s1' else '3')+'"' in line
+                        if 'dl_dst=00:00:00:00:00:05' in line else
+                        'in_port="'+switch+'-eth'+('4' if switch=='s1' else '2')+'"' in line)
+                if include_broadcast and 'priority=5,' in line:
+                    selected = True
+            if selected:
+                lines.append(switch + ': ' + line[line.index('n_packets='):].strip())
+    return lines
+
+
+def p1_success(name):
+    return [line.strip() for line in text(name).splitlines()
+            if line.startswith(('PINGALL loss percent:', '10 packets transmitted,',
+                                'rtt min/avg/max/mdev =', 'Logged forwarding Packet-In events:'))]
+
+
+def p1_evidence(name, proactive=False):
+    story.append(PageBreak())
+    h('1.' + ('2 Proactive' if proactive else '1 Reactive') + ' forwarding: recorded evidence')
+    p('The excerpts on this page are read directly from results/' + name + '.txt and results/' + name + '-controller.log. Flow rows retain packet/byte counters, priority, match and action; only the cookie, duration and table number are omitted.', small)
+    logs('Commands used for controller and switch inspection', [
+        '.venv/bin/ryu-manager --ofp-tcp-listen-port 6633 p1/' + ('proactive.py' if proactive else 'reactive.py'),
+        'sudo python3 p1_topo.py',
+        'ovs-ofctl -O OpenFlow13 dump-flows s1',
+        'ovs-ofctl -O OpenFlow13 dump-flows s2'])
+    p('The driver takes the first table dump before pingAll and the ten h1-h5 pings, then takes the final dump after those tests. It runs the same controller/topology and invokes these flow-table commands through Mininet.',small)
+    if proactive:
+        logs('Before tests: destination rules and broadcast rule already present', p1_rules(name,'before',True))
+    else:
+        logs('Before tests: only the table-miss rule on each switch', p1_rules(name,'before'))
+    controller = (RESULTS/(name+'-controller.log')).read_text().splitlines()
+    if proactive:
+        selected = [line for line in controller if line.startswith('Switch ') or
+                    line.startswith('All proactive rules') or
+                    (line.startswith('Installed:') and 'dst=h5 ' in line)]
+    else:
+        selected = [line for line in controller if line.startswith('Switch ') or
+                    ('Packet-In:' in line and
+                     'src=00:00:00:00:00:01 dst=00:00:00:00:00:05' in line)]
+    logs('Selected Ryu output',selected)
+    logs('After tests: h1/h5 forwarding rules and their packet counters',p1_rules(name,'after'))
+    logs('Connectivity and controller-workload results',p1_success(name))
+    if proactive:
+        p('The h5 rules exist before testing with zero packet counters. Afterwards, those same matches and output ports have nonzero counters: s1 sends h5 traffic over port 4, and s2 sends it to host port 2. Rules for h1 carry replies in the other direction. This shows that the preinstalled rules actually forwarded packets.')
+        p('Both switches also have a broadcast rule before the test. There is no CONTROLLER action in the proactive tables, so normal forwarding does not need Packet-In handling. The two successful ping checks provide the connectivity evidence alongside the installation log.',small)
+    else:
+        p('Initially, unmatched packets go to Ryu. The Packet-In lines show h1-to-h5 packets reaching the controller on both switches. The final tables then contain priority-1 unicast rules with nonzero counters: h1-to-h5 uses s1 port 4 and s2 port 2; replies use s2 port 3 and s1 port 1.')
+        p('The initial table-miss counters are already nonzero because hosts generate background Ethernet traffic before the controlled ping tests. There are still no learned unicast rules in that first snapshot. The total Packet-In count includes that startup traffic, pingAll and the measured pings.',small)
+
+
 check()
 h('Assignment 3: Software-Defined Networking')
 p('COL7524: Advanced Networks<br/><b>Deepak - 2025CSY7616</b><br/><b>Pratik - 2025MCS2096</b>')
@@ -151,7 +220,10 @@ p('For each controller, we started a clean network, saved the initial tables, ra
 counts=[int(re.search(r'events: (\d+)',text(n))[1]) for n in CASES[:2]]
 table([['Measure','Reactive','Proactive'],['pingAll loss','0%','0%'],['Forwarding Packet-In events',*counts],['Mean h1-h5 ping RTT (ms)',f'{mean_rtt(CASES[0]):.3f}',f'{mean_rtt(CASES[1]):.3f}'],['Initial rules per switch','1 table-miss rule','6 forwarding rules']], [235,138,138])
 p('The warmed-up RTTs are close because both switches then forward locally. The main difference is at setup: reactive forwarding needs controller decisions for initial traffic but installs rules only when needed. Proactive forwarding avoids that initial controller work, but needs advance knowledge and installs rules even for unused destinations. First-packet delay was not measured separately here.')
-p('The proactive count is supported by its flow tables: there is no output-to-controller rule. The flow-table excerpts on page 4 show this difference.',small)
+p('The proactive count is supported by its flow tables: there is no output-to-controller rule. The before/after tables, Ryu output and successful ping summaries on pages 2-3 show this difference.',small)
+
+p1_evidence('p1-reactive')
+p1_evidence('p1-proactive', proactive=True)
 
 story.append(PageBreak()); h('2. Link-metric-based path selection')
 diagram(2)
@@ -180,14 +252,7 @@ p(f'At the adaptive h1-h3 decision, s1 port 2 utilization was {util:.2f}, above 
 p('One limitation is the one-second sampling interval: a short burst may finish before it is detected. OVS byte counters can include traffic waiting in the shaped egress queue, so the estimate may reflect offered load rather than exact wire utilization. There is no hysteresis, so paths can alternate near the threshold. We do not reroute active flows, and the fixed host-pair rules do not distinguish individual TCP or UDP sessions.')
 
 story.append(PageBreak()); h('4. Selected flow tables and receiver logs')
-p('These excerpts come from the saved runs. Timing and cookie fields are omitted from the Part 1 excerpt so the match and action are easier to read. Full unedited flow dumps and controller logs are in results/.')
-reactive=text('p1-reactive')
-proactive=text('p1-proactive')
-rinitial=reactive.split('PINGALL',1)[0]
-pinitial=proactive.split('PINGALL',1)[0]
-rlines=[s[s.index('priority='):] for s in rinitial.splitlines() if 'priority=' in s][:1]
-plines=[s[s.index('priority='):] for s in pinitial.splitlines() if 'priority=10' in s and '00:00:00:00:00:05' in s][:1]
-logs('Part 1: s1 initial tables', ['Reactive: '+rlines[0], 'Proactive: '+plines[0]])
+p('The Part 1 before/after tables and controller logs appear on pages 2-3. The evidence below covers Parts 2 and 3. Full unedited flow dumps and logs are in results/.')
 p('The rows below are parsed from the final flow tables. All rules match IPv4, source MAC 00:00:00:00:00:01 and destination MAC 00:00:00:00:00:03, with priority 10 and idle timeout 5 seconds. Packet counters confirm that the selected switches forwarded the traffic.',small)
 rows=[['Run','Switch','Packets','Installed output action']]
 for name in CASES[2:]:
@@ -215,7 +280,7 @@ p('The experiment script runs six cases and replaces results/. A failed connecti
 p('For an interactive run, start Ryu and the topology in separate terminals. All controllers listen on port 6633:',small)
 table([['Part','Controller command after .venv/bin/ryu-manager','Topology command'],['1 reactive','--ofp-tcp-listen-port 6633 p1/reactive.py','sudo python3 p1_topo.py'],['1 proactive','--ofp-tcp-listen-port 6633 p1/proactive.py','sudo python3 p1_topo.py'],['2','--ofp-tcp-listen-port 6633 p2/routing.py','sudo python3 p3_topo.py'],['3','Prefix the Part 2 command with CONGESTION=1','sudo python3 p3_topo.py']], [74,274,163])
 p('For the changed-cost Part 2 case, prefix the controller command with DELAY12=40. Inside Mininet, use pingall and h1 ping -c 10 h3. Inspect a switch with sh ovs-ofctl -O OpenFlow13 dump-flows s1.',small)
-table([['Requirement checked','Evidence in this submission'],['Part 1: both approaches, connectivity, comparison and trade-off','Controllers in p1/; results/p1-*; page 1 and page 4'],['Part 2: graph, host ports, delay costs, bidirectional routes and changed-cost test','p2/routing.py; results/p2-*; page 2 and page 4'],['Part 3: statistics, threshold rule, later-flow routing and static comparison','CONGESTION=1; results/p3-*; page 3 and page 4'],['Source, topologies, setup, report and correctly named archive','All required files are included under code-a3/']], [255,256])
+table([['Requirement checked','Evidence in this submission'],['Part 1: both approaches, connectivity, comparison and trade-off','Controllers in p1/; results/p1-*; pages 1-3'],['Part 2: graph, host ports, delay costs, bidirectional routes and changed-cost test','p2/routing.py; results/p2-*; pages 4 and 6'],['Part 3: statistics, threshold rule, later-flow routing and static comparison','CONGESTION=1; results/p3-*; pages 5 and 6'],['Source, topologies, setup, report and correctly named archive','All required files are included under code-a3/']], [255,256])
 p('The bundled Ryu wheel is third-party Apache-2.0 software, with the existing eventlet ALREADY_HANDLED compatibility fix used on this machine. It removes the dependency on an external local Ryu source directory. pip downloads its other dependencies. SETUP.txt includes individual commands. Report regeneration additionally needs ReportLab and installed Arial fonts; neither is needed to run the networking experiments.',small)
 
 
